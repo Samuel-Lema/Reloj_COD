@@ -109,7 +109,7 @@
             <Property name="horizontalAlignment" type="int" value="0"/>
           </Properties>
           <AuxValues>
-            <AuxValue name="JavaCodeGenerator_VariableModifier" type="java.lang.Integer" value="10"/>
+            <AuxValue name="JavaCodeGenerator_VariableModifier" type="java.lang.Integer" value="9"/>
           </AuxValues>
         </Component>
         <Component class="javax.swing.JTextField" name="jtextBeep">
@@ -120,7 +120,7 @@
             <Property name="horizontalAlignment" type="int" value="0"/>
           </Properties>
           <AuxValues>
-            <AuxValue name="JavaCodeGenerator_VariableModifier" type="java.lang.Integer" value="10"/>
+            <AuxValue name="JavaCodeGenerator_VariableModifier" type="java.lang.Integer" value="9"/>
           </AuxValues>
         </Component>
       </SubComponents>
@@ -129,43 +129,26 @@
       <Properties>
         <Property name="text" type="java.lang.String" value="Snooze"/>
       </Properties>
-      <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnSnoozeActionPerformed"/>
-      </Events>
     </Component>
     <Component class="javax.swing.JButton" name="btnAlarm">
       <Properties>
         <Property name="text" type="java.lang.String" value="Alarm"/>
       </Properties>
-      <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnAlarmActionPerformed"/>
-      </Events>
     </Component>
     <Component class="javax.swing.JButton" name="btnHora">
       <Properties>
         <Property name="text" type="java.lang.String" value="+H"/>
-        <Property name="enabled" type="boolean" value="false"/>
       </Properties>
-      <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnHoraActionPerformed"/>
-      </Events>
     </Component>
     <Component class="javax.swing.JButton" name="btnOn">
       <Properties>
         <Property name="text" type="java.lang.String" value="On / Off"/>
       </Properties>
-      <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnOnActionPerformed"/>
-      </Events>
     </Component>
     <Component class="javax.swing.JButton" name="btnMin">
       <Properties>
         <Property name="text" type="java.lang.String" value="+M"/>
-        <Property name="enabled" type="boolean" value="false"/>
       </Properties>
-      <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnMinActionPerformed"/>
-      </Events>
     </Component>
   </SubComponents>
 </Form>

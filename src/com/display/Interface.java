@@ -1,7 +1,7 @@
 package com.display;
 
-import com.object.Alarm;
-import com.object.Time;
+import com.logic.uManage;
+import java.awt.event.ActionEvent;
 
 /**
  *
@@ -9,46 +9,54 @@ import com.object.Time;
  */
 public class Interface extends javax.swing.JFrame implements Runnable {
 
-    Thread h1;
+    static Thread h1;
     static String activa = "";
+    Interface miInterface;
     
     /**
      * Inicializa la Interfaz ( Constructor )
      */
     public Interface() {
         initComponents();
-
         h1 = new Thread((Runnable) this);
         h1.start();
         setVisible(true);
-    }
-    
-    /**
-     * Muestra la hora de Alarma en el reloj - Se usa un boolean para sobrecargar la función y identificar que es de la alarma
-     * @param alarma
-     */
-    public static void display(boolean alarma){
         
-        if (Alarm.isActive() == true){
-            activa = " A";
-        }
-        jtextTime.setText(Alarm.getHora() + " : " + Alarm.getMin() + activa);
-    }
-    
-    /**
-     * Muestra la hora actual del sistema por pantalla
-     */
-    public static void display(){
+        // Boton de encendido de Alarma
         
-        if (Alarm.isActive() == true){
-            activa = " A";
-            if (Time.getMin() == Alarm.getMin() && Time.getHora() == Alarm.getHora()){
-                jtextBeep.setText("Beep Beep");
-            } else {
+        btnOn.addActionListener((ActionEvent e) -> {
+           
+            uManage.active();
+        });
+        
+        // Boton de cambio de Modo Alarma / Hora
+        
+        btnAlarm.addActionListener((ActionEvent e) -> {
+            
+            if(h1.isAlive() == false){
+                h1 = new Thread((Runnable) this);
+                h1.start();
                 jtextBeep.setText("");
+            } else {
+                h1.stop();
+                uManage.pantalla(false);
+                jtextBeep.setText("Alarm Mode");
             }
-        }
-        jtextTime.setText(Time.getHora() + " : " + Time.getMin() + activa);
+        });
+        
+        // Boton de +1 a la hora de la Alarma
+        
+        btnHora.addActionListener((ActionEvent e) -> {
+           
+            uManage.hour();
+        });
+                
+        // Boton de +1 a los minutos de la Alarma
+        
+        btnMin.addActionListener((ActionEvent e) -> {
+           
+            uManage.min();
+        });
     }
     
     @SuppressWarnings("unchecked")
@@ -97,41 +105,14 @@ public class Interface extends javax.swing.JFrame implements Runnable {
         );
 
         btnSnooze.setText("Snooze");
-        btnSnooze.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnSnoozeActionPerformed(evt);
-            }
-        });
 
         btnAlarm.setText("Alarm");
-        btnAlarm.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnAlarmActionPerformed(evt);
-            }
-        });
 
         btnHora.setText("+H");
-        btnHora.setEnabled(false);
-        btnHora.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnHoraActionPerformed(evt);
-            }
-        });
 
         btnOn.setText("On / Off");
-        btnOn.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnOnActionPerformed(evt);
-            }
-        });
 
         btnMin.setText("+M");
-        btnMin.setEnabled(false);
-        btnMin.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnMinActionPerformed(evt);
-            }
-        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -171,70 +152,6 @@ public class Interface extends javax.swing.JFrame implements Runnable {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    // Enciende \ Apaga la Alarma
-    
-    private void btnOnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnOnActionPerformed
-        
-        if(Alarm.isActive() == true){
-            Alarm.setActive(false);
-        } else {
-            Alarm.setActive(true);
-        }
-    }//GEN-LAST:event_btnOnActionPerformed
-
-    // Cambia de modo ver Hora a modo ver Alarma y viceversa. Des/Habilita los botones de cambiar hora y min.
-    
-    private void btnAlarmActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAlarmActionPerformed
-     
-        if (btnHora.isEnabled() == true){
-            display();
-            btnHora.setEnabled(false);
-            btnMin.setEnabled(false);
-        } else {
-            display(false);
-            btnHora.setEnabled(true);
-            btnMin.setEnabled(true);
-        }
-        
-        if(h1.isAlive() == false){
-            h1 = new Thread((Runnable) this);
-            h1.start();
-        }
-    }//GEN-LAST:event_btnAlarmActionPerformed
-
-    // Añade +1 a la hora de la Alarma
-    
-    private void btnHoraActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnHoraActionPerformed
-        
-        h1.stop();
-        Alarm.setHora(Alarm.getHora() + 1);
-        display(false);
-    }//GEN-LAST:event_btnHoraActionPerformed
-
-    // Añade +1 a los minutos de la Alarma
-    
-    private void btnMinActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMinActionPerformed
-        
-        h1.stop();
-        Alarm.setMin(Alarm.getMin() + 1);
-        display(false);
-    }//GEN-LAST:event_btnMinActionPerformed
-
-    // Pospone la Alarma (cuando este sonando) para dentro de 5 min
-    
-    private void btnSnoozeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSnoozeActionPerformed
-        
-        if(Alarm.isActive() == true){
-            if (Time.getMin() == Alarm.getMin() && Time.getHora() == Alarm.getHora()){
-                Alarm.setMin(Alarm.getMin() + 5);
-            }
-        }
-    }//GEN-LAST:event_btnSnoozeActionPerformed
-
-    /**
-     * Llama el Constructor de la Interface
-     * @param args
-     */
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
@@ -259,13 +176,10 @@ public class Interface extends javax.swing.JFrame implements Runnable {
         }
         //</editor-fold>
 
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            @Override public void run() {
-                
-            }
+        java.awt.EventQueue.invokeLater(() -> {
         });
         
-        new Interface();
+        Interface miInterface = new Interface();
     }
     
     // Carga el hilo principal para refrescar la (hora : min) cada 1000 ms, que se muestran por pantalla.
@@ -274,8 +188,7 @@ public class Interface extends javax.swing.JFrame implements Runnable {
         Thread ct = Thread.currentThread();
         
         while(ct == h1) {
-            activa = "";
-            display();
+            uManage.pantalla();
                     
             try {
                 Thread.sleep(1000);
@@ -291,8 +204,8 @@ public class Interface extends javax.swing.JFrame implements Runnable {
     private javax.swing.JButton btnSnooze;
     private javax.swing.JFormattedTextField jFormattedTextField2;
     private javax.swing.JPanel jPanel1;
-    private static javax.swing.JTextField jtextBeep;
-    private static javax.swing.JTextField jtextTime;
+    public static javax.swing.JTextField jtextBeep;
+    public static javax.swing.JTextField jtextTime;
     // End of variables declaration//GEN-END:variables
 
 
